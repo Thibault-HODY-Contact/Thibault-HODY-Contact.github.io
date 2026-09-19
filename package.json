@@ -1,0 +1,7 @@
+{
+  "name": "thib387.github.io",
+  "private": true,
+  "scripts": {
+    "new-project": "node tools/new-project.js"
+  }
+}

@@ -111,8 +111,10 @@
 	function renderSection(s, isFirstSpotlight) {
 		var h = s.heading ? '<header class="major"><h' + (isFirstSpotlight ? 2 : 3) + '>' + esc(t(s.heading)) + '</h' + (isFirstSpotlight ? 2 : 3) + '></header>' : '';
 
+		var btn = s.button ? '<ul class="actions"><li><a href="' + esc(s.button.url) + '" class="button">' + esc(t(s.button.label)) + '</a></li></ul>' : '';
+
 		if (s.type === 'text') {
-			return '<section><div class="inner"><header class="major"><h2>' + esc(t(s.heading)) + '</h2></header><p>' + t(s.text) + '</p></div></section>';
+			return '<section><div class="inner"><header class="major"><h2>' + esc(t(s.heading)) + '</h2></header><p>' + t(s.text) + '</p>' + btn + '</div></section>';
 		}
 
 		if (s.type === 'background') {
@@ -128,7 +130,6 @@
 			var img = '<img src="' + esc(s.image) + '" alt="" data-position="' + esc(s.position || 'center center') + '" />';
 			media = s.link ? '<a href="' + esc(s.link) + '" class="image">' + img + '</a>' : '<div class="image">' + img + '</div>';
 		}
-		var btn = s.button ? '<ul class="actions"><li><a href="' + esc(s.button.url) + '" class="button">' + esc(t(s.button.label)) + '</a></li></ul>' : '';
 		return '<section' + (s.fit === 'contain' ? ' class="fit-contain"' : '') + '>' + media +
 			'<div class="content"><div class="inner">' + h + '<p>' + t(s.text) + '</p>' + btn + '</div></div></section>';
 	}

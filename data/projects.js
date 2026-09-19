@@ -2,6 +2,9 @@
  * ============================================================
  *  AJOUTER UN PROJET
  * ============================================================
+ *  Le plus simple : lance "npm run new-project" dans un terminal, il pose les questions
+ *  et ajoute le bloc pour toi. Ou à la main :
+ *
  *  1. Copie un bloc { ... } ci-dessous et colle-le dans la liste PROJECTS.
  *  2. Change l'id, la date, les images et les textes. C'est tout :
  *     la tuile sur l'accueil et la page du projet sont générées toutes seules,
@@ -26,8 +29,8 @@
  *    copyright (optionnel) texte © du pied de page
  *    sections  contenu de la page, dans l'ordre. Types possibles :
  *
- *      { type: "text", heading, text }
- *          bloc de texte centré.
+ *      { type: "text", heading, text, button? }
+ *          bloc de texte centré (avec un bouton optionnel).
  *
  *      { type: "spotlight", image | video, link?, heading, text, button?, fit? }
  *          bloc image (ou vidéo) + texte.
@@ -293,6 +296,104 @@ window.PROJECTS = [
 					fr: "Pour <strong>Chronopost Simulator</strong>, j'ai dû créer un outil de level design, notamment utilisé pour le placement des routes.",
 					en: "For <strong>Chronopost Simulator</strong>, I had to create a level design tool, mainly used for placing roads."
 				}
+			}
+		]
+	},
+
+	{
+		id: "tata-miam",
+		date: "2026-04",
+		thumb: "images/tatamiam-thumb.jpg",
+		banner: "images/tatamiam-menu.jpg",
+		logo: ["Tata", "Miam"],
+		title: { fr: "Tata Miam", en: "Tata Miam" },
+		tagline: {
+			fr: "Un jeu de cuisine et de gestion en multijoueur, réalisé en équipe sur notre propre moteur de jeu.",
+			en: "A multiplayer cooking and management game, made as a team on our own game engine."
+		},
+		links: [{ icon: "fa-itch-io", url: "https://thib387.itch.io/tata-miam", label: "Itch.io" }],
+		copyright: "Tata Miam Team",
+		sections: [
+			{
+				type: "spotlight",
+				image: "images/tatamiam-menu.jpg",
+				link: "https://thib387.itch.io/tata-miam",
+				heading: { fr: "Le Projet", en: "The Project" },
+				text: {
+					fr: "<strong>Tata Miam</strong> est un jeu de cuisine et de gestion en multijoueur, réalisé en équipe dans le cadre de mes études. Il faut préparer les commandes des clients en découpant et en cuisant des ingrédients : poisson, riz, salade, tomate, viande...",
+					en: "<strong>Tata Miam</strong> is a multiplayer cooking and management game, made as a team as part of my studies. You have to prepare customers' orders by cutting and cooking ingredients: fish, rice, salad, tomato, meat..."
+				},
+				button: { label: { fr: "Jouer sur Itch.io", en: "Play on Itch.io" }, url: "https://thib387.itch.io/tata-miam" }
+			},
+			{
+				type: "spotlight",
+				image: "images/tatamiam-lobby.jpg",
+				link: "https://thib387.itch.io/tata-miam",
+				heading: { fr: "Cuisiner à plusieurs", en: "Cooking together" },
+				text: {
+					fr: "Une partie se crée depuis un lobby : un joueur héberge la partie et les autres la rejoignent en réseau, avant de se lancer ensemble en cuisine.",
+					en: "A game is created from a lobby: one player hosts the match and the others join it over the network, before heading into the kitchen together."
+				}
+			},
+			{
+				type: "text",
+				heading: { fr: "Un jeu propulsé par notre propre moteur", en: "A game powered by our own engine" },
+				text: {
+					fr: "Tata Miam repose sur <strong>EntreCôte System</strong>, le moteur de jeu que nous avons développé en équipe, également dans le cadre de mes études.",
+					en: "Tata Miam runs on <strong>EntreCôte System</strong>, the game engine we developed as a team, also as part of my studies."
+				},
+				button: { label: { fr: "Découvrir le moteur", en: "Discover the engine" }, url: "project.html?id=entrecote-system" }
+			}
+		]
+	},
+
+	{
+		id: "entrecote-system",
+		date: "2026-04",
+		thumb: "images/entrecote-thumb.jpg",
+		banner: "images/entrecote-logo.jpg",
+		logo: ["EntreCôte", "System"],
+		title: { fr: "EntreCôte System", en: "EntreCôte System" },
+		tagline: {
+			fr: "Un moteur de jeu maison en C++ et DirectX 12, développé en équipe pendant mes études.",
+			en: "A homemade game engine in C++ and DirectX 12, developed as a team during my studies."
+		},
+		links: [
+			{ icon: "fa-github", url: "https://github.com/Valentindav/EntreCoteSytem", label: "GitHub" },
+			{ icon: "fa-itch-io", url: "https://thib387.itch.io/entrectesystem-documentation", label: "Documentation" }
+		],
+		copyright: "EntreCôte System Team",
+		sections: [
+			{
+				type: "spotlight",
+				image: "images/entrecote-logo.jpg",
+				link: "https://github.com/Valentindav/EntreCoteSytem",
+				heading: { fr: "Sous le capot", en: "Under the hood" },
+				text: {
+					fr: "Le moteur est écrit en <strong>C++</strong> avec des shaders <strong>HLSL</strong> et s'appuie sur <strong>DirectX 12</strong>. Son noyau suit une architecture <strong>ECS</strong> (Entity Component System) avec machine à états, événements et threading. Il comprend aussi un module de rendu GPU (caméras, render targets, génération de géométrie, particules), un moteur audio (sons 2D et 3D, effets) et une couche réseau par sockets pour le multijoueur.",
+					en: "The engine is written in <strong>C++</strong> with <strong>HLSL</strong> shaders and is built on <strong>DirectX 12</strong>. Its core follows an <strong>ECS</strong> (Entity Component System) architecture with a state machine, events and threading. It also includes a GPU rendering module (cameras, render targets, geometry generation, particles), an audio engine (2D and 3D sounds, effects) and a socket-based network layer for multiplayer."
+				},
+				button: { label: { fr: "Code source sur GitHub", en: "Source code on GitHub" }, url: "https://github.com/Valentindav/EntreCoteSytem" }
+			},
+			{
+				type: "spotlight",
+				image: "images/tatamiam-menu.jpg",
+				link: "https://thib387.itch.io/tata-miam",
+				heading: { fr: "Mis à l'épreuve avec un vrai jeu", en: "Put to the test with a real game" },
+				text: {
+					fr: "Le moteur a été utilisé pour créer <strong>Tata Miam</strong>, un jeu de cuisine et de gestion en multijoueur publié sur Itch.io.",
+					en: "The engine was used to create <strong>Tata Miam</strong>, a multiplayer cooking and management game published on Itch.io."
+				},
+				button: { label: { fr: "Voir Tata Miam", en: "See Tata Miam" }, url: "project.html?id=tata-miam" }
+			},
+			{
+				type: "text",
+				heading: { fr: "Documentation", en: "Documentation" },
+				text: {
+					fr: "Le moteur dispose de sa propre documentation en ligne.",
+					en: "The engine has its own online documentation."
+				},
+				button: { label: { fr: "Lire la documentation", en: "Read the documentation" }, url: "https://thib387.itch.io/entrectesystem-documentation" }
 			}
 		]
 	}
