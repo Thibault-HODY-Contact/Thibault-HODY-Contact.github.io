@@ -51,19 +51,30 @@
 		});
 	}
 
+	// Sélecteur de langue : mêmes boutons arrondis que les filtres, la langue courante est en blanc.
 	function langButtons() {
-		return langs.filter(function (l) { return l !== lang; }).map(function (l) {
-			return '<a class="button fit" href="#" data-lang="' + l + '">' + esc(SITE.languages[l]) + '</a>';
-		}).join('');
+		return '<div class="lang-switch" role="group" aria-label="Language">' + langs.map(function (l) {
+			return '<button type="button" class="chip' + (l === lang ? ' is-active' : '') + '" data-lang="' + l + '" title="' + esc(SITE.languages[l]) +
+				'" aria-pressed="' + (l === lang) + '">' + esc(l) + '</button>';
+		}).join('') + '</div>';
 	}
 
 	function header(inner, classes) {
-		return '<header id="header" class="' + classes + '">' + inner +
-			'<ul class="actions stacked">' + langButtons() + '</ul></header>';
+		return '<header id="header" class="' + classes + '">' + inner + langButtons() + '</header>';
 	}
 
-	function menu() {
-		return '<nav id="menu"><ul class="links"><li><a href="index.html">' + esc(ui('home')) + '</a></li></ul></nav>';
+	// Projets du plus récent au plus ancien (à date égale : ordre du fichier).
+	function sortedProjects() {
+		return PROJECTS.map(function (p, i) { return { p: p, i: i }; })
+			.sort(function (a, b) { return b.p.date.localeCompare(a.p.date) || a.i - b.i; })
+			.map(function (x) { return x.p; });
+	}
+
+	function menu(currentId) {
+		var links = sortedProjects().filter(function (p) { return p.id !== currentId; }).map(function (p) {
+			return '<li><a href="project.html?id=' + encodeURIComponent(p.id) + '">' + esc(t(p.title)) + '</a></li>';
+		}).join('');
+		return '<nav id="menu"><ul class="links"><li><a href="index.html">' + esc(ui('home')) + '</a></li>' + links + '</ul></nav>';
 	}
 
 	function footer(links, copyright) {
@@ -75,17 +86,49 @@
 			'</div></footer>';
 	}
 
+	// Barre du bas de l'accueil : email, téléphone, ville et LinkedIn réunis.
+	function contactBar() {
+		function item(icon, label, href) {
+			var inner = '<span class="icon ' + icon + '" aria-hidden="true"></span><span class="txt">' + esc(label) + '</span>';
+			return href ? '<a class="item" href="' + esc(href) + '">' + inner + '</a>' : '<span class="item">' + inner + '</span>';
+		}
+		return '<footer id="footer" class="contact-bar"><div class="inner">' +
+			item('solid fa-envelope', SITE.email, 'mailto:' + SITE.email) +
+			item('solid fa-phone', SITE.phone.display, 'tel:' + SITE.phone.tel) +
+			item('solid fa-map-marker-alt', ui('city')) +
+			item('brands fa-linkedin-in', 'LinkedIn', SITE.linkedin) +
+			'</div></footer>';
+	}
+
+	// Boutons de filtre : uniquement les types utilisés par au moins un projet.
+	function filterBar() {
+		var used = {};
+		PROJECTS.forEach(function (p) { (p.types || []).forEach(function (k) { used[k] = true; }); });
+		var keys = Object.keys(SITE.types).filter(function (k) { return used[k]; });
+		if (!keys.length) return '';
+		var chips = ['<button type="button" class="chip is-active" data-filter="all">' + esc(ui('all')) + '</button>'].concat(keys.map(function (k) {
+			return '<button type="button" class="chip" data-filter="' + esc(k) + '">' + esc(t(SITE.types[k])) + '</button>';
+		}));
+		return '<div class="filters" role="group" aria-label="' + esc(ui('filterLabel')) + '">' + chips.join('') + '</div>';
+	}
+
+	// Fond du bandeau : les images des projets, en fondu enchaîné.
+	function heroCarousel() {
+		var seen = {};
+		var srcs = sortedProjects().map(function (p) { return p.banner || p.thumb; })
+			.filter(function (src) { return src && !seen[src] && (seen[src] = true); });
+		return '<div class="hero-carousel" aria-hidden="true">' + srcs.map(function (src, i) {
+			return '<div class="slide' + (i === 0 ? ' active' : '') + '" style="background-image:url(\'' + esc(src) + '\')"></div>';
+		}).join('') + '</div>';
+	}
+
 	// ---------- Accueil ----------
 
 	function renderHome() {
 		document.title = ui('siteTitle');
 
-		var sorted = PROJECTS.map(function (p, i) { return { p: p, i: i }; })
-			.sort(function (a, b) { return b.p.date.localeCompare(a.p.date) || a.i - b.i; })
-			.map(function (x) { return x.p; });
-
-		var tiles = sorted.map(function (p) {
-			return '<article>' +
+		var tiles = sortedProjects().map(function (p) {
+			return '<article data-types="' + esc((p.types || []).join(' ')) + '">' +
 				'<span class="image"><img src="' + esc(p.thumb) + '" alt=""' + (p.audio ? ' data-audio="' + esc(p.audio) + '"' : '') + ' /></span>' +
 				'<header class="major"><h3><a href="project.html?id=' + encodeURIComponent(p.id) + '" class="link">' + esc(t(p.title)) + '</a></h3>' +
 				'<p>' + esc(formatDate(p)) + '</p></header></article>';
@@ -93,17 +136,11 @@
 
 		wrapper.innerHTML =
 			header('<a href="index.html" class="logo"><img src="' + esc(SITE.logo) + '" alt="" width="60" height="60" /></a><nav></nav>', 'alt') +
-			'<section id="banner" class="major"><div class="inner">' +
+			'<section id="banner" class="major hero">' + heroCarousel() + '<div class="inner">' +
 				'<header class="major"><h1>' + esc(ui('siteTitle')) + '</h1></header>' +
 				'<div class="content"><p>' + ui('welcome') + '</p></div></div></section>' +
-			'<div id="main"><section id="one" class="tiles">' + tiles + '</section></div>' +
-			'<section id="contact"><div><div class="split">' +
-				'<div class="contact-method"><span class="icon solid alt fa-envelope"></span><h3>' + esc(ui('contactMail')) + '</h3>' +
-					'<a href="mailto:' + esc(SITE.email) + '">' + esc(SITE.email) + '</a></div>' +
-				'<div class="contact-method"><span class="icon solid alt fa-home"></span><h3>' + esc(ui('contactCity')) + '</h3>' +
-					'<span>' + esc(ui('city')) + '</span></div>' +
-			'</div></div></section>' +
-			footer([{ icon: 'fa-linkedin-in', url: SITE.linkedin, label: 'LinkedIn' }]);
+			'<div id="main">' + filterBar() + '<section id="one" class="tiles">' + tiles + '</section></div>' +
+			contactBar();
 	}
 
 	// ---------- Page projet ----------
@@ -151,8 +188,8 @@
 		wrapper.innerHTML =
 			header('<a href="index.html" class="logo"><strong>' + esc(p.logo[0]) + '</strong> <span>' + esc(p.logo[1] || '') + '</span></a>' +
 				'<nav><a href="#menu">' + esc(ui('menu')) + '</a></nav>', 'alt style2') +
-			menu() +
-			'<section id="banner"><div class="inner"><span class="image"><img src="' + esc(p.banner) + '" alt="" /></span>' +
+			menu(p.id) +
+			'<section id="banner" class="hero"><div class="hero-carousel" aria-hidden="true"><div class="slide active" style="background-image:url(\'' + esc(p.banner) + '\')"></div></div><div class="inner">' +
 				'<header class="major"><h1>' + esc(t(p.heading || p.title)) + '</h1></header>' +
 				'<div class="content"><p>' + t(p.tagline) + '</p></div></div></section>' +
 			'<div id="main">' + html + '</div>' +
@@ -186,8 +223,55 @@
 	// avant, le survol reste silencieux, sans erreur ni blocage.
 
 	if (page !== 'project') {
+
+		// Apparition progressive des cartes quand elles entrent à l'écran.
+		var cards = wrapper.querySelectorAll('#one article');
+		if ('IntersectionObserver' in window) {
+			var seen = 0;
+			var io = new IntersectionObserver(function (entries) {
+				entries.forEach(function (e) {
+					if (!e.isIntersecting) return;
+					e.target.style.setProperty('--delay', (seen++ % 4) * 90 + 'ms');
+					e.target.classList.add('is-visible');
+					io.unobserve(e.target);
+				});
+			}, { threshold: 0.15 });
+			cards.forEach(function (c) { c.classList.add('reveal'); io.observe(c); });
+		}
+
+		// Filtre par type.
+		var filters = wrapper.querySelector('.filters');
+		if (filters) filters.addEventListener('click', function (e) {
+			var chip = e.target.closest('.chip');
+			if (!chip) return;
+			var type = chip.getAttribute('data-filter'), n = 0;
+			filters.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-active', c === chip); });
+			cards.forEach(function (card) {
+				var match = type === 'all' || (card.getAttribute('data-types') || '').split(' ').indexOf(type) > -1;
+				card.classList.toggle('is-filtered-out', !match);
+				if (!match) return;
+				card.classList.remove('is-visible');
+				void card.offsetWidth;                      // relance l'animation d'apparition
+				card.style.setProperty('--delay', (n++ % 4) * 70 + 'ms');
+				card.classList.add('is-visible');
+			});
+		});
+
+		// Carrousel du bandeau (immobile si l'utilisateur préfère moins d'animations).
+		var slides = wrapper.querySelectorAll('.hero-carousel .slide');
+		var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (slides.length > 1 && !calm) {
+			var idx = 0;
+			setInterval(function () {
+				if (document.hidden) return;
+				slides[idx].classList.remove('active');
+				idx = (idx + 1) % slides.length;
+				slides[idx].classList.add('active');
+			}, 5500);
+		}
+
 		var current = null;
-		wrapper.querySelectorAll('#one article').forEach(function (article) {
+		cards.forEach(function (article) {
 			var img = article.querySelector('img');
 			var src = img && img.getAttribute('data-audio');
 			if (!src) return;

@@ -16,3 +16,303 @@
 	z-index: 1;
 	display: block;
 }
+
+/* ==========================================================
+   Accueil : cartes projets (remplace les grandes tuiles carrées)
+   ========================================================== */
+
+#main > #one.tiles {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+	gap: 1.75rem;
+	max-width: 82rem;
+	margin: 0 auto;
+	padding: 4rem 2.5rem 5rem;
+}
+
+#one.tiles > article {
+	width: auto !important;
+	height: auto;
+	min-height: 0;
+	max-height: none;
+	aspect-ratio: 4 / 3;
+	padding: 1.75rem;
+	align-items: flex-end;
+	border-radius: 1.25rem;
+	background-image: none !important;   /* l'image est affichée via .image ci-dessous, pour pouvoir la zoomer */
+	background-color: #242943;
+	box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.28);
+	transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease, opacity 0.25s ease, filter 0.6s ease;
+	-webkit-transform: translateZ(0);       /* Safari : garde les coins arrondis pendant le zoom */
+}
+
+#one.tiles > article .image {
+	display: block !important;
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	margin: 0;
+}
+#one.tiles > article .image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Dégradé doux en bas pour la lisibilité, à la place de l'aplat de couleur opaque. */
+#one.tiles > article:before {
+	background: linear-gradient(to top, rgba(22, 26, 46, 0.92) 0%, rgba(22, 26, 46, 0.45) 45%, rgba(22, 26, 46, 0) 80%) !important;
+	opacity: 1 !important;
+}
+#one.tiles > article:after {
+	background: transparent;
+}
+
+#one.tiles > article header.major {
+	width: 100%;
+}
+#one.tiles > article header.major h3 {
+	font-size: 1.35em;
+	margin: 0 0 0.25em;
+	padding: 0;
+	border: 0;
+	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+#one.tiles > article header.major h3:after {
+	width: 2.2rem;
+	height: 3px;
+	border-radius: 3px;
+	margin-top: 0.6rem;
+	transition: width 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+#one.tiles > article:hover header.major h3:after {
+	width: 4.5rem;
+}
+#one.tiles > article header.major p {
+	margin: 0;
+	font-size: 0.8em;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.8;
+}
+
+#one.tiles > article:hover {
+	transform: translateY(-0.5rem);
+	box-shadow: 0 1.4rem 2.6rem rgba(0, 0, 0, 0.38);
+}
+#one.tiles > article:hover .image img {
+	transform: scale(1.08);
+}
+#one.tiles > article.is-transitioning {
+	transform: scale(0.96);
+	opacity: 0;
+}
+
+/* Apparition progressive au scroll (classes posées par assets/js/site.js). */
+#one.tiles > article.reveal {
+	opacity: 0;
+}
+#one.tiles > article.reveal.is-visible {
+	animation: tile-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+	animation-delay: var(--delay, 0ms);
+}
+@keyframes tile-in {
+	from { opacity: 0; transform: translateY(1.75rem) scale(0.98); }
+	to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 736px) {
+	#main > #one.tiles {
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+		padding: 2rem 1.25rem 3rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#one.tiles > article,
+	#one.tiles > article .image img { transition: none; }
+	#one.tiles > article.reveal.is-visible { animation: none; opacity: 1; }
+}
+
+/* ==========================================================
+   Accueil : barre de contact du bas (email, téléphone, ville, LinkedIn)
+   ========================================================== */
+
+#footer.contact-bar {
+	background: #1e2238;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	padding: 1.75rem 2rem;
+}
+#footer.contact-bar .inner {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem 2.5rem;
+	padding: 0;
+}
+#footer.contact-bar .item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	color: rgba(255, 255, 255, 0.85);
+	border: 0;
+	font-size: 0.9em;
+	text-decoration: none;
+	transition: color 0.25s ease, transform 0.25s ease;
+}
+#footer.contact-bar a.item:hover {
+	color: #fff;
+	transform: translateY(-2px);
+}
+#footer.contact-bar .icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.2rem;
+	height: 2.2rem;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	border: 0;
+	font-size: 0.85em;
+	transition: background 0.25s ease;
+}
+#footer.contact-bar a.item:hover .icon {
+	background: rgba(255, 255, 255, 0.18);
+}
+@media (max-width: 736px) {
+	#footer.contact-bar .inner {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.9rem;
+	}
+}
+
+/* ==========================================================
+   Accueil : bandeau compact + carrousel + filtres
+   ========================================================== */
+
+/* Bandeau plus bas : la 1re rangée de projets reste entièrement visible à l'arrivée. */
+#banner.major.hero {
+	height: clamp(14rem, calc(100vh - 27rem), 30rem);
+	min-height: 0;
+	max-height: none;
+	background-image: none;
+	background-color: #2a2f4a;   /* = couleur de #main, pour un raccord parfait avec la zone des cartes */
+	overflow: hidden;
+}
+#banner.major.hero h1 {
+	font-size: 2.6em;
+}
+
+/* Pages projet : même fond (image + fade) que l'accueil, hauteur du thème conservée. */
+#banner.hero:not(.major) {
+	background-image: none;
+	background-color: #2a2f4a;
+	overflow: hidden;
+}
+
+/* Fade inversé : c'est l'image qui devient progressivement transparente vers le bas
+   (au lieu d'un aplat bleu posé dessus), donc elle se fond dans le fond de page, quel qu'il soit. */
+.hero-carousel,
+#banner.hero:after {
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.94) 20%, rgba(0, 0, 0, 0.75) 40%, rgba(0, 0, 0, 0.45) 60%, rgba(0, 0, 0, 0.18) 80%, transparent 100%);
+	mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.94) 20%, rgba(0, 0, 0, 0.75) 40%, rgba(0, 0, 0, 0.45) 60%, rgba(0, 0, 0, 0.18) 80%, transparent 100%);
+}
+.hero-carousel {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+}
+/* Fondu enchaîné des images de projets, avec un lent zoom. */
+.hero-carousel .slide {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	opacity: 0;
+	transform: scale(1);
+	transition: opacity 1.6s ease, transform 9s linear;
+}
+.hero-carousel .slide.active {
+	opacity: 1;
+	transform: scale(1.08);
+}
+
+/* Voile : lisibilité du texte à gauche (estompé vers le bas comme l'image). */
+#banner.hero:after {
+	background: linear-gradient(to right, rgba(36, 41, 67, 0.88) 0%, rgba(36, 41, 67, 0.55) 55%, rgba(36, 41, 67, 0.3) 100%);
+	opacity: 1;
+}
+
+/* Filtres par type de projet */
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.6rem;
+	padding: 1.5rem 1rem 0;
+}
+.chip {
+	all: unset;
+	box-sizing: border-box;
+	cursor: pointer;
+	padding: 0.55em 1.2em;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.chip:hover {
+	border-color: #fff;
+	color: #fff;
+	transform: translateY(-1px);
+}
+.chip:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 2px;
+}
+.chip.is-active {
+	background: #fff;
+	border-color: #fff;
+	color: #242943;
+}
+
+#one.tiles > article.is-filtered-out {
+	display: none !important;
+}
+
+/* La grille remonte : les filtres prennent déjà l'espace au-dessus. */
+#main > #one.tiles {
+	padding-top: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-carousel .slide { transition: none; transform: none !important; }
+}
+
+/* Sélecteur de langue (en-tête) : mêmes boutons arrondis que les filtres. */
+#header .lang-switch {
+	display: flex;
+	align-items: center;
+	align-self: center;
+	gap: 0.4rem;
+	margin: 0 1.25rem 0 0.5rem;
+	line-height: 1;
+}
+#header .lang-switch .chip {
+	background: rgba(36, 41, 67, 0.35);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	padding: 0.5em 0.9em;
+}
+#header .lang-switch .chip.is-active {
+	background: #fff;
+}

@@ -32,6 +32,13 @@ async function ask(question, def, { required = false } = {}) {
 	}
 }
 
+// Types disponibles = clés de "types" dans data/site.js.
+function readTypes() {
+	const window = {};
+	new Function('window', fs.readFileSync(path.join(ROOT, 'data', 'site.js'), 'utf8'))(window);
+	return Object.keys(window.SITE.types || {});
+}
+
 const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
 	.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
@@ -113,6 +120,12 @@ function toSource(v, indent = '\t') {
 	p.tagline = await askText('Phrase d\'accroche');
 	const itch = await ask('Lien Itch.io / page du jeu (Entrée = aucun) :');
 	if (itch) p.links = [{ icon: 'fa-itch-io', url: itch, label: 'Itch.io' }];
+	const known = readTypes();
+	const typesAnswer = await ask(`Types, séparés par des virgules (${known.join(', ')} ; Entrée = aucun) :`);
+	const types = typesAnswer.split(',').map(x => x.trim()).filter(Boolean);
+	const unknown = types.filter(x => !known.includes(x));
+	if (unknown.length) abort(`Type inconnu : ${unknown.join(', ')} (types disponibles : ${known.join(', ')}).`);
+	if (types.length) p.types = types;
 	const audio = await ask('Son au survol (Entrée = aucun) :');
 	if (audio) p.audio = useFile(audio);
 

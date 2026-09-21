@@ -17,6 +17,8 @@
  *  Champs d'un projet
  *    id        identifiant unique, sert dans l'URL : project.html?id=<id>
  *    date      "AAAA-MM" ; le mois est traduit automatiquement (mars / March)
+ *    types     catégories du filtre de l'accueil : ["gamejam", "school", "engine"]
+ *              (liste et noms dans data/site.js > types ; plusieurs possibles)
  *    dateText  (optionnel) texte libre à la place de la date formatée
  *    thumb     image de la tuile sur l'accueil
  *    banner    image de la bannière de la page projet
@@ -49,6 +51,7 @@ window.PROJECTS = [
 	{
 		id: "killer-penguin",
 		date: "2025-03",
+		types: ["gamejam"],
 		thumb: "images/pic18.png",
 		banner: "images/pic18.png",
 		audio: "audio/KillerPenguin.mp3",
@@ -98,6 +101,7 @@ window.PROJECTS = [
 	{
 		id: "undesired",
 		date: "2025-04",
+		types: ["gamejam"],
 		thumb: "images/pic16.png",
 		banner: "images/pic19.jpg",
 		audio: "audio/Undesired.mp3",
@@ -146,7 +150,8 @@ window.PROJECTS = [
 
 	{
 		id: "squadron24",
-		date: "2025-03",
+		date: "2024-12",
+		types: ["school"],
 		thumb: "images/pic04.png",
 		banner: "images/pic12.png",
 		audio: "audio/Squadron24.mp3",
@@ -201,6 +206,7 @@ window.PROJECTS = [
 	{
 		id: "glouglou-parc",
 		date: "2025-02",
+		types: ["gamejam"],
 		thumb: "images/pic02.png",
 		banner: "images/pic13.png",
 		audio: "audio/glouglou.mp3",
@@ -251,6 +257,7 @@ window.PROJECTS = [
 	{
 		id: "chronopost-simulator",
 		date: "2024-12",
+		types: ["gamejam"],
 		dateText: { fr: "2024/2025 (vacances de Noël)", en: "2024/2025 (Christmas holidays)" },
 		thumb: "images/pic03.png",
 		banner: "images/pic14.png",
@@ -303,6 +310,7 @@ window.PROJECTS = [
 	{
 		id: "tata-miam",
 		date: "2026-04",
+		types: ["school"],
 		thumb: "images/tatamiam-thumb.jpg",
 		banner: "images/tatamiam-menu.jpg",
 		logo: ["Tata", "Miam"],
@@ -350,6 +358,7 @@ window.PROJECTS = [
 	{
 		id: "entrecote-system",
 		date: "2026-04",
+		types: ["school", "engine"],
 		thumb: "images/entrecote-thumb.jpg",
 		banner: "images/entrecote-logo.jpg",
 		logo: ["EntreCôte", "System"],
