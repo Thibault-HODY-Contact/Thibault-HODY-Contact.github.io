@@ -50,7 +50,7 @@ window.PROJECTS = [
 
 	{
 		id: "killer-penguin",
-		date: "2025-03",
+		date: "2025-08",
 		types: ["gamejam"],
 		thumb: "images/pic18.png",
 		banner: "images/pic18.png",
@@ -256,7 +256,7 @@ window.PROJECTS = [
 
 	{
 		id: "chronopost-simulator",
-		date: "2024-12",
+		date: "2025-01",
 		types: ["gamejam"],
 		dateText: { fr: "2024/2025 (vacances de Noël)", en: "2024/2025 (Christmas holidays)" },
 		thumb: "images/pic03.png",
@@ -357,7 +357,7 @@ window.PROJECTS = [
 
 	{
 		id: "entrecote-system",
-		date: "2026-04",
+		date: "2026-03",
 		types: ["school", "engine"],
 		thumb: "images/entrecote-thumb.jpg",
 		banner: "images/entrecote-logo.jpg",
