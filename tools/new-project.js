@@ -129,6 +129,21 @@ function toSource(v, indent = '\t') {
 	const audio = await ask('Son au survol (Entrée = aucun) :');
 	if (audio) p.audio = useFile(audio);
 
+	const tags = (await ask('Tags affichés, séparés par des virgules (ex. Unity, Puzzle ; Entrée = aucun) :')).split(',').map(x => x.trim()).filter(Boolean);
+	if (tags.length) p.tags = tags;
+	const role = await ask('Ton rôle (FR, Entrée = ne pas afficher) :');
+	if (role) { const en = await ask('Ton rôle (EN, Entrée = pas de traduction) :'); p.role = en ? { fr: role, en } : { fr: role }; }
+	const duration = await ask('Durée (ex. 2 semaines, Entrée = ne pas afficher) :');
+	if (duration) { const en = await ask('Durée (EN, Entrée = pas de traduction) :'); p.duration = en ? { fr: duration, en } : { fr: duration }; }
+	const team = parseInt(await ask('Nombre de personnes dans l\'équipe (Entrée = ne pas afficher) :'), 10);
+	if (team > 0) p.team = team;
+	const tasks = [];
+	for (let fr; (fr = await ask('Ce que tu as fait, une ligne à la fois (FR, Entrée = terminer) :'));) {
+		const en = await ask('  (EN, Entrée = pas de traduction) :');
+		tasks.push(en ? { fr, en } : { fr });
+	}
+	if (tasks.length) p.tasks = tasks;
+
 	p.sections = [];
 	for (let s; (s = await askSection()) !== null;) if (s) p.sections.push(s);
 

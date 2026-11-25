@@ -122,6 +122,36 @@
 		}).join('') + '</div>';
 	}
 
+	function tagList(p) {
+		if (!p.tags || !p.tags.length) return '';
+		return '<ul class="tags">' + p.tags.map(function (tag) { return '<li>' + esc(t(tag)) + '</li>'; }).join('') + '</ul>';
+	}
+
+	// « En recherche d'une alternance » avec les domaines qui défilent.
+	function seekingLine() {
+		var s = SITE.seeking;
+		if (!s) return '';
+		var words = s.fields.map(t);
+		return '<p class="seeking" aria-label="' + esc(t(s.text) + ' : ' + words.join(', ')) + '">' +
+			'<span class="pulse" aria-hidden="true"></span><span aria-hidden="true">' + esc(t(s.text)) + '</span>' +
+			'<span class="rotator" aria-hidden="true">' + words.map(function (w, i) {
+				return '<span class="word' + (i === 0 ? ' is-on' : '') + '">' + esc(w) + '</span>';
+			}).join('') + '</span></p>';
+	}
+
+	// Fiche d'un projet : rôle, durée, équipe et réalisations.
+	function factSheet(p) {
+		function fact(label, value) { return value ? '<div><dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd></div>' : ''; }
+		var facts = fact(ui('role'), t(p.role)) + fact(ui('duration'), t(p.duration)) +
+			fact(ui('team'), p.team ? p.team + ' ' + ui('people') : '');
+		var tasks = (p.tasks || []).map(function (x) { return '<li>' + esc(t(x)) + '</li>'; }).join('');
+		if (!facts && !tasks) return '';
+		return '<section class="fiche"><div class="inner">' +
+			(facts ? '<dl class="facts">' + facts + '</dl>' : '') +
+			(tasks ? '<h2>' + esc(ui('done')) + '</h2><ul class="tasks">' + tasks + '</ul>' : '') +
+			'</div></section>';
+	}
+
 	// ---------- Accueil ----------
 
 	function renderHome() {
@@ -131,13 +161,14 @@
 			return '<article data-types="' + esc((p.types || []).join(' ')) + '">' +
 				'<span class="image"><img src="' + esc(p.thumb) + '" alt=""' + (p.audio ? ' data-audio="' + esc(p.audio) + '"' : '') + ' /></span>' +
 				'<header class="major"><h3><a href="project.html?id=' + encodeURIComponent(p.id) + '" class="link">' + esc(t(p.title)) + '</a></h3>' +
-				'<p>' + esc(formatDate(p)) + '</p></header></article>';
+				'<p>' + esc(formatDate(p)) + '</p></header>' + tagList(p) + '</article>';
 		}).join('');
 
 		wrapper.innerHTML =
 			header('<a href="index.html" class="logo"><img src="' + esc(SITE.logo) + '" alt="" width="60" height="60" /></a><nav></nav>', 'alt') +
 			'<section id="banner" class="major hero">' + heroCarousel() + '<div class="inner">' +
 				'<header class="major"><h1>' + esc(ui('siteTitle')) + '</h1></header>' +
+				seekingLine() +
 				'<div class="content"><p>' + ui('welcome') + '</p></div></div></section>' +
 			'<div id="main">' + filterBar() + '<section id="one" class="tiles">' + tiles + '</section></div>' +
 			contactBar();
@@ -191,8 +222,8 @@
 			menu(p.id) +
 			'<section id="banner" class="hero"><div class="hero-carousel" aria-hidden="true"><div class="slide active" style="background-image:url(\'' + esc(p.banner) + '\')"></div></div><div class="inner">' +
 				'<header class="major"><h1>' + esc(t(p.heading || p.title)) + '</h1></header>' +
-				'<div class="content"><p>' + t(p.tagline) + '</p></div></div></section>' +
-			'<div id="main">' + html + '</div>' +
+				'<div class="content"><p>' + t(p.tagline) + '</p></div>' + tagList(p) + '</div></section>' +
+			'<div id="main">' + factSheet(p) + html + '</div>' +
 			footer(p.links, p.copyright);
 	}
 
@@ -268,6 +299,18 @@
 				idx = (idx + 1) % slides.length;
 				slides[idx].classList.add('active');
 			}, 5500);
+		}
+
+		// Domaines recherchés qui défilent.
+		var words = wrapper.querySelectorAll('.seeking .word');
+		if (words.length > 1 && !calm) {
+			var w = 0;
+			setInterval(function () {
+				if (document.hidden) return;
+				words[w].classList.remove('is-on');
+				w = (w + 1) % words.length;
+				words[w].classList.add('is-on');
+			}, 2200);
 		}
 
 		var current = null;

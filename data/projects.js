@@ -19,6 +19,11 @@
  *    date      "AAAA-MM" ; le mois est traduit automatiquement (mars / March)
  *    types     catégories du filtre de l'accueil : ["gamejam", "school", "engine"]
  *              (liste et noms dans data/site.js > types ; plusieurs possibles)
+ *    tags      étiquettes affichées sur la tuile et la page : ["Unity", { fr: "Énigmes", en: "Puzzle" }]
+ *    role      (optionnel) ton rôle sur le projet : { fr, en }
+ *    duration  (optionnel) durée du projet : { fr, en }
+ *    team      (optionnel) nombre de personnes dans l'équipe : 3
+ *    tasks     (optionnel) liste « Ce que j'ai fait » : [ { fr, en }, ... ]
  *    dateText  (optionnel) texte libre à la place de la date formatée
  *    thumb     image de la tuile sur l'accueil
  *    banner    image de la bannière de la page projet
@@ -52,6 +57,10 @@ window.PROJECTS = [
 		id: "killer-penguin",
 		date: "2025-08",
 		types: ["gamejam"],
+		tags: ["Unity", { fr: "Plateforme", en: "Platformer" }],
+		role: { fr: "Programmeur", en: "Programmer" },
+		duration: { fr: "1 semaine", en: "1 week" },
+		team: 3,
 		thumb: "images/pic18.png",
 		banner: "images/pic18.png",
 		audio: "audio/KillerPenguin.mp3",
@@ -102,6 +111,10 @@ window.PROJECTS = [
 		id: "undesired",
 		date: "2025-04",
 		types: ["gamejam"],
+		tags: ["Unity", { fr: "Énigmes", en: "Puzzle" }, "One Room"],
+		role: { fr: "Programmeur", en: "Programmer" },
+		duration: { fr: "36 heures", en: "36 hours" },
+		team: 3,
 		thumb: "images/pic16.png",
 		banner: "images/pic19.jpg",
 		audio: "audio/Undesired.mp3",
@@ -152,6 +165,10 @@ window.PROJECTS = [
 		id: "squadron24",
 		date: "2024-12",
 		types: ["school"],
+		tags: ["C++", "SFML", "Shoot'em up 2D"],
+		role: { fr: "Programmeur", en: "Programmer" },
+		duration: { fr: "2 semaines", en: "2 weeks" },
+		team: 2,
 		thumb: "images/pic04.png",
 		banner: "images/pic12.png",
 		audio: "audio/Squadron24.mp3",
@@ -207,6 +224,9 @@ window.PROJECTS = [
 		id: "glouglou-parc",
 		date: "2025-02",
 		types: ["gamejam"],
+		tags: ["Mobile", "Clicker"],
+		role: { fr: "Programmeur", en: "Programmer" },
+		team: 3,
 		thumb: "images/pic02.png",
 		banner: "images/pic13.png",
 		audio: "audio/glouglou.mp3",
@@ -258,6 +278,13 @@ window.PROJECTS = [
 		id: "chronopost-simulator",
 		date: "2025-01",
 		types: ["gamejam"],
+		tags: ["Unity", { fr: "Simulation", en: "Simulation" }, "Level design"],
+		role: { fr: "Programmeur", en: "Programmer" },
+		duration: { fr: "8 jours", en: "8 days" },
+		team: 3,
+		tasks: [
+			{ fr: "Outil de level design, notamment pour le placement des routes", en: "Level design tool, mainly used to place roads" }
+		],
 		dateText: { fr: "2024/2025 (vacances de Noël)", en: "2024/2025 (Christmas holidays)" },
 		thumb: "images/pic03.png",
 		banner: "images/pic14.png",
@@ -311,6 +338,16 @@ window.PROJECTS = [
 		id: "tata-miam",
 		date: "2026-04",
 		types: ["school"],
+		tags: ["C++", { fr: "Moteur maison", en: "Custom engine" }, { fr: "Cuisine", en: "Cooking" }, { fr: "Multijoueur", en: "Multiplayer" }],
+		role: { fr: "Programmeur gameplay & interface", en: "Gameplay & UI programmer" },
+		duration: { fr: "4 semaines", en: "4 weeks" },
+		team: 4,
+		tasks: [
+			{ fr: "Interactions de cuisine : aliments et cuisson au four", en: "Cooking interactions: food and oven cooking" },
+			{ fr: "Affichage des clients et de leurs commandes", en: "Display of customers and their orders" },
+			{ fr: "Interfaces : menu de statistiques, écran de fin, noms des joueurs", en: "UI: statistics menu, end screen, player names" },
+			{ fr: "Synchronisation réseau des informations clients", en: "Network synchronisation of customer data" }
+		],
 		thumb: "images/tatamiam-thumb.jpg",
 		banner: "images/tatamiam-menu.jpg",
 		logo: ["Tata", "Miam"],
@@ -359,6 +396,16 @@ window.PROJECTS = [
 		id: "entrecote-system",
 		date: "2026-03",
 		types: ["school", "engine"],
+		tags: ["C++", "DirectX 12", "ECS", "HLSL"],
+		role: { fr: "Programmeur moteur", en: "Engine programmer" },
+		duration: { fr: "4 semaines", en: "4 weeks" },
+		team: 3,
+		tasks: [
+			{ fr: "Système de particules (émetteurs et shaders HLSL)", en: "Particle system (emitters and HLSL shaders)" },
+			{ fr: "Système d'interface : texte, images et boutons", en: "UI system: text, images and buttons" },
+			{ fr: "Hiérarchie parent / enfant des transforms", en: "Parent / child transform hierarchy" },
+			{ fr: "Contribution au noyau ECS et au rendu", en: "Contribution to the ECS core and rendering" }
+		],
 		thumb: "images/entrecote-thumb.jpg",
 		banner: "images/entrecote-logo.jpg",
 		logo: ["EntreCôte", "System"],
@@ -403,6 +450,119 @@ window.PROJECTS = [
 					en: "The engine has its own online documentation."
 				},
 				button: { label: { fr: "Lire la documentation", en: "Read the documentation" }, url: "https://thib387.itch.io/entrectesystem-documentation" }
+			}
+		]
+	},
+
+	{
+		id: "beyond-journeys-end",
+		date: "2026-11",
+		types: ["school"],
+		tags: ["Unity", { fr: "Combat", en: "Combat" }, "Shaders & VFX", { fr: "Cinématique", en: "Cinematics" }],
+		role: { fr: "Programmeur gameplay, VFX & shaders", en: "Gameplay, VFX & shader programmer" },
+		duration: { fr: "2 semaines", en: "2 weeks" },
+		team: 2,
+		tasks: [
+			{ fr: "Contrôleur du personnage : déplacement, saut, caméra et points de vie", en: "Character controller: movement, jump, camera and health" },
+			{ fr: "Système d'attaque (avec l'équipe), retours visuels et dégâts affichés", en: "Attack system (with the team), visual feedback and damage numbers" },
+			{ fr: "Attaque ultime : cinématique, arrêt du temps et trou noir", en: "Ultimate attack: cinematic, time stop and black hole" },
+			{ fr: "Shaders Shader Graph : hologramme, feu, distorsion, vent, arrêt du temps, transition...", en: "Shader Graph shaders: hologram, fire, distortion, wind, time stop, transition..." }
+		],
+		thumb: "images/beyond-thumb.jpg",
+		banner: "images/beyond-banner.jpg",
+		logo: ["Beyond", "Journey's End"],
+		title: { fr: "Beyond Journey's End", en: "Beyond Journey's End" },
+		tagline: { fr: "Un jeu de combat magique à la troisième personne inspiré de l'univers de Frieren, réalisé sur Unity.", en: "A third-person magic combat game inspired by the world of Frieren, made with Unity." },
+		links: [{ icon: "fa-github", url: "https://github.com/Thibault-HODY-Contact/Beyond-Journeys-End", label: "GitHub" }],
+		sections: [
+			{
+				type: "spotlight",
+				video: "images/BeyondJourneysEndTrailer.mp4",
+				heading: { fr: "La bande-annonce", en: "The trailer" },
+				text: { fr: "Face à plusieurs ennemis, enchaînez les sorts, protégez-vous avec un bouclier magique et déclenchez une <strong>attaque ultime</strong> mise en scène.", en: "Facing several enemies, chain spells, protect yourself with a magic shield and unleash a staged <strong>ultimate attack</strong>." },
+				button: { label: { fr: "Code source sur GitHub", en: "Source code on GitHub" }, url: "https://github.com/Thibault-HODY-Contact/Beyond-Journeys-End" }
+			},
+			{
+				type: "spotlight",
+				image: "images/beyond-combat.jpg",
+				heading: { fr: "Des effets faits maison", en: "Custom-made effects" },
+				text: { fr: "Le projet a été l'occasion de travailler le rendu : flammes, hologrammes, distorsions et arrêt du temps sont construits avec des <strong>shaders et des VFX</strong> déclenchés par le gameplay.", en: "The project was a chance to work on rendering: flames, holograms, distortions and time stop are built with <strong>shaders and VFX</strong> triggered by gameplay." }
+			}
+		]
+	},
+
+	{
+		id: "minescape",
+		date: "2026-10",
+		types: ["school"],
+		tags: ["Unity", { fr: "Génération procédurale", en: "Procedural generation" }, "3D", { fr: "Évasion", en: "Escape" }],
+		role: { fr: "Programmeur gameplay & génération procédurale", en: "Gameplay & procedural generation programmer" },
+		duration: { fr: "2 semaines", en: "2 weeks" },
+		team: 2,
+		tasks: [
+			{ fr: "Génération procédurale des étages (BSP) : salles, couloirs et échelles", en: "Procedural floor generation (BSP): rooms, corridors and ladders" },
+			{ fr: "Placement automatique du décor et des minerais à partir de règles", en: "Rule-based automatic placement of props and ores" },
+			{ fr: "Joueur : déplacement, échelles, points de vie et inventaire", en: "Player: movement, ladders, health and inventory" },
+			{ fr: "Propagation du gaz toxique, menus et optimisation par culling dynamique", en: "Toxic gas spreading, menus and dynamic culling optimisation" }
+		],
+		thumb: "images/minescape-thumb.jpg",
+		banner: "images/minescape-menu.jpg",
+		logo: ["Mine", "Scape"],
+		title: { fr: "MineScape", en: "MineScape" },
+		tagline: { fr: "Échappez-vous d'une mine générée procéduralement avant que le gaz toxique ne vous rattrape.", en: "Escape a procedurally generated mine before the toxic gas catches up with you." },
+		links: [{ icon: "fa-itch-io", url: "https://thib387.itch.io/minescape", label: "Itch.io" }, { icon: "fa-github", url: "https://github.com/Thibault-HODY-Contact/Procedural-DungeonCrawler", label: "GitHub" }],
+		sections: [
+			{
+				type: "spotlight",
+				video: "images/MineScapeGameplay.mp4",
+				heading: { fr: "Fuir la mine", en: "Escape the mine" },
+				text: { fr: "On choisit le nombre de niveaux, puis il faut remonter étage par étage grâce aux échelles. Après quelques secondes, un <strong>gaz toxique</strong> se répand depuis le point de départ.", en: "You pick the number of levels, then climb floor by floor using ladders. After a few seconds, a <strong>toxic gas</strong> starts spreading from the starting point." },
+				button: { label: { fr: "Jouer sur Itch.io", en: "Play on Itch.io" }, url: "https://thib387.itch.io/minescape" }
+			},
+			{
+				type: "spotlight",
+				image: "images/minescape-generation.jpg",
+				heading: { fr: "Une mine différente à chaque partie", en: "A different mine every run" },
+				text: { fr: "Chaque étage est découpé par un algorithme <strong>BSP</strong>, relié par des couloirs, habillé automatiquement puis empilé sur le précédent.", en: "Each floor is split by a <strong>BSP</strong> algorithm, linked by corridors, dressed automatically and then stacked on the previous one." },
+				button: { label: { fr: "Code source sur GitHub", en: "Source code on GitHub" }, url: "https://github.com/Thibault-HODY-Contact/Procedural-DungeonCrawler" }
+			}
+		]
+	},
+
+	{
+		id: "necromancer-magical-girl",
+		date: "2026-10",
+		types: ["school"],
+		tags: ["Unity", { fr: "Coop", en: "Co-op" }, { fr: "Écran partagé", en: "Split screen" }, { fr: "Énigmes", en: "Puzzle" }, "PvP"],
+		role: { fr: "Programmeur gameplay & level design", en: "Gameplay programmer & level designer" },
+		duration: { fr: "2 semaines", en: "2 weeks" },
+		team: 2,
+		tasks: [
+			{ fr: "Sélection des personnages, gestion des manettes et caméras à deux joueurs", en: "Character selection, controller handling and two-player cameras" },
+			{ fr: "Mode commandement pour envoyer les alliés agir sur les leviers et énigmes", en: "Command mode to send allies to levers and puzzles" },
+			{ fr: "Conversion des ennemis en alliés et duel entre joueurs (avec l'équipe)", en: "Enemy-to-ally conversion and player duel (with the team)" },
+			{ fr: "Intégration des dialogues, transitions de niveau et level design", en: "Dialogue integration, level transitions and level design" }
+		],
+		thumb: "images/necromancer-thumb.jpg",
+		banner: "images/necromancer-banner.jpg",
+		logo: ["Necromancer", "× Magical Girl"],
+		title: { fr: "Necromancer × Magical Girl", en: "Necromancer × Magical Girl" },
+		tagline: { fr: "Un nécromancien et une magical girl doivent s'allier pour s'évader... jusqu'à ce que l'alliance se brise. Seul ou à deux.", en: "A necromancer and a magical girl must team up to escape... until the alliance breaks. Solo or two players." },
+		links: [{ icon: "fa-itch-io", url: "https://ryad-mahiou.itch.io/necromancer-x-magical-girl", label: "Itch.io" }, { icon: "fa-github", url: "https://github.com/Thibault-HODY-Contact/Necromancer-X-MagicalGirl", label: "GitHub" }],
+		sections: [
+			{
+				type: "spotlight",
+				video: "images/NecromancerMagicalGirlGameplay.mp4",
+				heading: { fr: "Le gameplay", en: "Gameplay" },
+				text: { fr: "Chaque héros a ses propres attaques. Les ennemis vaincus rejoignent leur vainqueur et forment une petite armée que l'on peut <strong>commander</strong> pour résoudre les énigmes.", en: "Each hero has their own attacks. Defeated enemies join whoever beat them, forming a small army you can <strong>command</strong> to solve puzzles." },
+				button: { label: { fr: "Jouer sur Itch.io", en: "Play on Itch.io" }, url: "https://ryad-mahiou.itch.io/necromancer-x-magical-girl" }
+			},
+			{
+				type: "spotlight",
+				image: "images/necromancer-combat.jpg",
+				heading: { fr: "Alliés puis rivaux", en: "Allies, then rivals" },
+				text: { fr: "Pour sortir, les deux héros coopèrent. Une fois dehors, chacun veut le trône du roi démon : la partie se termine en <strong>duel</strong>, armée contre armée.", en: "To get out, the two heroes cooperate. Once outside, both want the demon king's throne: the game ends in a <strong>duel</strong>, army against army." },
+				button: { label: { fr: "Code source sur GitHub", en: "Source code on GitHub" }, url: "https://github.com/Thibault-HODY-Contact/Necromancer-X-MagicalGirl" }
 			}
 		]
 	}
